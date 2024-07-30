@@ -4,7 +4,7 @@ CC=gcc
 # Why are we depending on print and load csv?
 INCS := -I../inc/ 
 INCS += -I${RSUTILS_SRC_ROOT}/inc/
-INCS += -I../../../QJIT/GUTILS/inc/
+INCS += -I${Q_SRC_ROOT}/QJIT/GUTILS/inc/
 INCS += -I/usr/include/lua5.1/ 
 
 all: libcmem.so 

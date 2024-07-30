@@ -4,7 +4,6 @@ CC=gcc
 # Why are we depending on print and load csv?
 INCS := -I../inc/ 
 INCS += -I${RSUTILS_SRC_ROOT}/inc/
-INCS += -I../../../QJIT/GUTILS/inc/
 INCS += -I/usr/include/lua5.1/ 
 
 all: libcmem.so 
@@ -28,7 +27,6 @@ SRCS += aux_lua_to_c.c
 OBJS = $(SRCS:.c=.o)
 
 # QCFLAGS += -DVERBOSE # NOTE: Add -DVERBOSE for verbosity
-QCFLAGS += -DUSE_GLOBALS
 .c.o : 
 	$(CC) -c -o $@ $< ${QCFLAGS} $(INCS) 
 # GLOBALS needed for g_mem_used
