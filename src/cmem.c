@@ -140,9 +140,9 @@ l_cmem_set_name(
   if ( num_args != 2 ) { go_BYE(-1); }
   CMEM_REC_TYPE *ptr_cmem = (CMEM_REC_TYPE *)luaL_checkudata(L, 1, "CMEM");
   const char * const cell_name = luaL_checkstring(L, 2);
-  memset(ptr_cmem->cell_name, 0, Q_MAX_LEN_CELL_NAME+1); 
+  memset(ptr_cmem->cell_name, 0, CMEM_MAX_LEN_NAME+1); 
   if ( cell_name != NULL ) { 
-    strncpy(ptr_cmem->cell_name, cell_name, Q_MAX_LEN_CELL_NAME);
+    strncpy(ptr_cmem->cell_name, cell_name, CMEM_MAX_LEN_NAME);
   }
   lua_pushboolean(L, true);
   return 1;

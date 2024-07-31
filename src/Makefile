@@ -31,12 +31,9 @@ OBJS = $(SRCS:.c=.o)
 	$(CC) -c -o $@ $< ${QCFLAGS} $(INCS) 
 # GLOBALS needed for g_mem_used
 
-# CGUTILS_SO = ${Q_SRC_ROOT}/QJIT/GUTILS/libcgutils.so
-RSUTILS_SO = ${RSUTILS_SRC_ROOT}/src/librsutils.so 
-	
 ${CGUTILS_SO} :
 	make -C ../../../QJIT/GUTILS/
 
 libcmem.so:   ${OBJS} 
 	$(CC) ${OBJS} -shared -o libcmem.so \
-	  	${CGUTILS_SO} ${RSUTILS_SO}
+	  	${CGUTILS_SO} 

@@ -1,5 +1,4 @@
 #include "q_incs.h"
-#include "cmem_consts.h"
 #include "cmem_struct.h"
 #include "aux_cmem.h"
 #ifdef USE_GLOBALS
@@ -19,7 +18,7 @@ cmem_free(
   }
 #endif
 
-  memset(ptr_cmem->cell_name, 0, Q_MAX_LEN_CELL_NAME+1); 
+  memset(ptr_cmem->cell_name, 0, CMEM_MAX_LEN_NAME+1); 
   if ( ptr_cmem->data == NULL ) { 
     // explicit free will cause control to come here
     if ( ptr_cmem->size != 0 ) {
@@ -61,9 +60,9 @@ cmem_dupe( // INTERNAL NOT VISIBLE TO LUA
   ptr_cmem->data = data;
   ptr_cmem->size = size;
   ptr_cmem->qtype = qtype;
-  memset(ptr_cmem->cell_name, 0, Q_MAX_LEN_CELL_NAME+1); 
+  memset(ptr_cmem->cell_name, 0, CMEM_MAX_LEN_NAME+1); 
   if ( cell_name != NULL ) { 
-    strncpy(ptr_cmem->cell_name, cell_name, Q_MAX_LEN_CELL_NAME);
+    strncpy(ptr_cmem->cell_name, cell_name, CMEM_MAX_LEN_NAME);
   }
   ptr_cmem->is_foreign = true;
 BYE:
@@ -97,9 +96,9 @@ cmem_malloc( // INTERNAL NOT VISIBLE TO LUA
   ptr_cmem->data = data;
   ptr_cmem->size = size;
   ptr_cmem->qtype = qtype;
-  memset(ptr_cmem->cell_name, 0, Q_MAX_LEN_CELL_NAME+1); 
+  memset(ptr_cmem->cell_name, 0, CMEM_MAX_LEN_NAME+1); 
   if ( cell_name != NULL ) { 
-    strncpy(ptr_cmem->cell_name, cell_name, Q_MAX_LEN_CELL_NAME);
+    strncpy(ptr_cmem->cell_name, cell_name, CMEM_MAX_LEN_NAME);
 #ifdef VERBOSE
     printf("CMEM Malloc  of %lld  for %s \n", ptr_cmem->size, ptr_cmem->cell_name);
 #endif
