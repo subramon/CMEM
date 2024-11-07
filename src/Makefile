@@ -7,8 +7,8 @@ INCS += -I${RSUTILS_SRC_ROOT}/inc/
 INCS += -I${RSLUTILS_SRC_ROOT}/inc/
 INCS += -I/usr/include/lua5.1/ 
 
-LIBS := -I${RSUTILS_SRC_ROOT}/src/librsutils.so
-LIBS += -I${RSLUTILS_SRC_ROOT}/src/librslutils.so
+MYLIBS := -I${RSUTILS_SRC_ROOT}/src/librsutils.so
+MYLIBS += -I${RSLUTILS_SRC_ROOT}/src/librslutils.so
 all: libcmem.so 
 
 clean:
@@ -27,5 +27,5 @@ ${CGUTILS_SO} :
 	make -C ../../../QJIT/GUTILS/
 
 libcmem.so:   ${OBJS} 
-	$(CC) ${OBJS} -shared -o libcmem.so ${LIBS} \
+	$(CC) ${OBJS} -shared -o libcmem.so ${MYLIBS} \
 	  	${CGUTILS_SO} 
