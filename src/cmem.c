@@ -10,8 +10,13 @@
 
 #include "cmem_struct.h"
 #include "aux_cmem.h"
-#include "aux_lua_to_c.h"
 #include "qtypes.h"
+#include "check_args_is_table.h"
+#include "get_int_from_tbl.h"
+#include "get_str_from_tbl.h"
+#include "get_bool_from_tbl.h"
+#include "get_array_of_ints_from_tbl.h"
+#include "get_array_of_strings_from_tbl.h"
 
 #include "BL_to_txt.h" 
 #include "I1_to_txt.h" 
@@ -862,7 +867,7 @@ int luaopen_libcmem (lua_State *L) {
   /* Register CMEM in types table */
   // TODO P1 fix hard coding below 
   int status = luaL_dostring(L, 
-      "return require 'Q/UTILS/lua/register_type'");
+      "return require 'RSUTILS/lua/register_type'");
   if (status != 0 ) {
     printf("Running require failed:  %s\n", lua_tostring(L, -1));
     exit(1);

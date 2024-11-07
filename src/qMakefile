@@ -4,17 +4,25 @@ CC=gcc
 # Why are we depending on print and load csv?
 INCS := -I../inc/ 
 INCS += -I${RSUTILS_SRC_ROOT}/inc/
+INCS += -I${RSLUTILS_SRC_ROOT}/inc/
 INCS += -I${Q_SRC_ROOT}/QJIT/GUTILS/inc/
 INCS += -I/usr/include/lua5.1/ 
 
 all: libcmem.so 
+
+CGUTILS_SO  = ${Q_SRC_ROOT}/QJIT/GUTILS/libcgutils.so # for g_mem_used
+RSUTILS_SO  = ${RSUTILS_SRC_ROOT}/src/librsutils.so 
+RSLUTILS_SO = ${RSLUTILS_SRC_ROOT}/src/librslutils.so 
+
+MYLIBS := ${CGUTILS_SO}
+MYLIBS += ${RSUTILS_SO}
+MYLIBS += ${RSLUTILS_SO}
 
 clean:
 	rm -f *.so *.o _* ${OBJS}
 		
 SRCS := cmem.c
 SRCS += aux_cmem.c
-SRCS += aux_lua_to_c.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -24,12 +32,9 @@ QCFLAGS += -DUSE_GLOBALS # needed for g_mem_used
 	$(CC) -c -o $@ $< ${QCFLAGS} $(INCS) 
 
 
-CGUTILS_SO = ${Q_SRC_ROOT}/QJIT/GUTILS/libcgutils.so # for g_mem_used
-RSUTILS_SO = ${RSUTILS_SRC_ROOT}/src/librsutils.so 
 	
 ${CGUTILS_SO} :
 	make -C ../../../QJIT/GUTILS/
 
 libcmem.so:   ${OBJS} 
-	$(CC) ${OBJS} -shared ${CGUTILS_SO} ${RSUTILS_SO} \
-	-o libcmem.so 
+	$(CC) ${OBJS} -shared ${MYLIBS} -o libcmem.so 
