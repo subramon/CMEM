@@ -49,7 +49,7 @@ int
 cmem_dupe( // INTERNAL NOT VISIBLE TO LUA 
     CMEM_REC_TYPE *ptr_cmem,
     void *data,
-    int64_t size,
+    uint64_t size,
     qtype_t qtype,
     const char * const cell_name
     )
@@ -72,14 +72,13 @@ BYE:
 int 
 cmem_malloc( // INTERNAL NOT VISIBLE TO LUA 
     CMEM_REC_TYPE *ptr_cmem,
-    int64_t size,
+    uint64_t size,
     qtype_t qtype,
     const char *const cell_name
     )
 {
   int status = 0;
   void *data = NULL;
-  if ( size < 0 ) { go_BYE(-1); } // we allow size == 0 
   if ( size > 0 ) { 
     // Always allocate a multiple of CMEM_ALIGNMENT
     size = (size_t)ceil((double)size / CMEM_ALIGNMENT) * CMEM_ALIGNMENT;

@@ -12,11 +12,11 @@
 #include "aux_cmem.h"
 #include "qtypes.h"
 #include "check_args_is_table.h"
-#include "get_int_from_tbl.h"
+#include "get_num_from_tbl.h"
 #include "get_str_from_tbl.h"
 #include "get_bool_from_tbl.h"
-#include "get_array_of_ints_from_tbl.h"
-#include "get_array_of_strings_from_tbl.h"
+#include "get_array_of_nums.h"
+#include "get_array_of_strings.h"
 
 #include "BL_to_txt.h" 
 #include "I1_to_txt.h" 
@@ -90,7 +90,7 @@ l_cmem_new(
 
   const char * str_qtype = NULL;   // info to be set from input 
   const char * cell_name = NULL; // info to be set from input 
-  int64_t size;           // info to be set from input 
+  uint64_t size;           // info to be set from input 
   
   //-- get info from input 
   int num_on_stack = lua_gettop(L);
@@ -100,11 +100,15 @@ l_cmem_new(
   }
   else {
     if ( !lua_istable(L, 1) ) { go_BYE(-1); }
-    status = get_int_from_tbl(L, 1, "size", &is_key, &size); cBYE(status);
+    double dtmp;
+    status = get_num_from_tbl(L, 1, "size", &is_key, &dtmp); cBYE(status);
     if ( !is_key ) { 
       fprintf(stderr, "CMEM size not specified\n"); 
       go_BYE(-1); 
     }
+    // Note we allow size == 0 for dummy CMEM so that we do not 
+    if ( dtmp < 0 ) { go_BYE(-1); }
+    size = (uint64_t)dtmp;
     // okay for qtype to be unspecified
     status = get_str_from_tbl(L, 1, "qtype", &is_key, &str_qtype); 
     cBYE(status);
@@ -112,8 +116,6 @@ l_cmem_new(
     status = get_str_from_tbl(L, 1, "name", &is_key, &cell_name); 
     cBYE(status);
   }
-  // Note we allow size == 0 for dummy CMEM so that we do not 
-  if ( size < 0 ) { go_BYE(-1); }
 
   ptr_cmem = (CMEM_REC_TYPE *)lua_newuserdata(L, sizeof(CMEM_REC_TYPE));
   return_if_malloc_failed(ptr_cmem);
